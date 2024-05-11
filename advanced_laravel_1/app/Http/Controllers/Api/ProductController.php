@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Product;
-use App\Requests\Product\CreateProductValidator;
-use App\Requests\Product\UpdateProductValidator;
+use App\Http\Requests\Product\CreateProductValidator;
+use App\Http\Requests\Product\UpdateProductValidator;
 use App\Services\ProductsService;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,10 +23,7 @@ class ProductController extends BaseController{
 
     public function store(CreateProductValidator $createProductValidator)
     {
-        if(!empty($createProductValidator->getErrors())){
-            return response()->json($createProductValidator->getErrors() , 406);
-        }
-        $data = $createProductValidator->request()->all();
+        $data = $createProductValidator->validated();
         $data['user_id'] = Auth::user()->id;
         $response = $this->productsService->createProduct($data);
         return $this->sendResponse($response);
@@ -35,11 +32,7 @@ class ProductController extends BaseController{
 
     public function update($id , UpdateProductValidator $updateProductValidator)
     {
-        if(!empty($updateProductValidator->getErrors())){
-            return response()->json($updateProductValidator->getErrors() , 406);
-        }
-
-        $data = $updateProductValidator->request()->all();
+        $data = $updateProductValidator->validated();
         $data['user_id'] = Auth::id();
         $response = $this->productsService->updateProduct($id,$data);
         return $this->sendResponse($response);

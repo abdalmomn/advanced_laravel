@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\EmailController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,11 +27,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::resource('/products',ProductController::class)->middleware('auth:sanctum');
 
-//Route::controller(ProductController::class)->middleware('auth:sanctum')->group(function(){
-//    Route::get('/products/index' , 'index');
-//    Route::post('/products/create' , 'store');
-//    Route::get('/products/single_product/{id}' , 'show');
-//    Route::put('/products/update/{id}' , 'update');
-//    Route::delete('/products/delete/{id}' , 'destroy');
-//
-//});
+Route::get('/send_email' , [EmailController::class,'send'])->middleware('auth:sanctum');
