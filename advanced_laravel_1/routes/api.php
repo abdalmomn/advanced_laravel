@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\EmailController;
+use App\Http\Controllers\Api\ThirdPartyController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,3 +29,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('/products',ProductController::class)->middleware('auth:sanctum');
 
 Route::get('/send_email' , [EmailController::class,'send'])->middleware('auth:sanctum');
+
+Route::get('/get_api' , [ThirdPartyController::class,'index']);

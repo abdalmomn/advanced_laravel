@@ -4,8 +4,7 @@ namespace App\Services;
 
 use App\Events\newProductMail;
 use App\Models\Product;
-use App\Models\ProductDetail;
-use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 
 class ProductsService
@@ -25,20 +24,23 @@ class ProductsService
         $product = Product::create($data);
         $product->details()->create($data);
         Event::dispatch(new newProductMail($product));
+
         return $product;
     }
 
     public function updateProduct($id,$data)
     {
+        $userId = Auth::id();
         $product = $this->getProduct($id);
         $product->title = $data['title'];
         $product->description = $data['description'];
-        $product->user_id = $data['user_id'];
+        $product->user_id = $userId;
         $product->details->size = $data['size'];
         $product->details->color = $data['color'];
         $product->details->price = $data['price'];
         $product->save();
         $product->details->save();
+
         return $product;
     }
 

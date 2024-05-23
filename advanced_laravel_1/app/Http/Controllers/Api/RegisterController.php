@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\MailRegisterEvent;
 use App\Http\Requests\User\CreateUserValidator;
 use App\Http\Requests\User\LoginUserValidator;
+use App\Mail\registerMailable;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 class RegisterController extends BaseController
 {

@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\MailRegisterEvent;
 use App\Events\newProductMail;
+use App\Events\updateProductEvent;
+use App\Listeners\SendMailRegisterListener;
 use App\Listeners\sendProductMail;
+use App\Listeners\updateProductListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
         newProductMail::class => [
             sendProductMail::class,
         ],
+        updateProductEvent::class => [
+          updateProductListener::class,
+        ],
     ];
 
     /**
@@ -38,6 +45,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function shouldDiscoverEvents(): bool
     {
-        return false;
+        return true;
     }
 }
